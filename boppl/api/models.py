@@ -1,16 +1,24 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#     * Rearrange models' order
-#     * Make sure each model has one field with primary_key=True
-# Feel free to rename the models, but don't rename db_table values or field names.
-#
-# Also note: You'll have to insert the output of 'django-admin.py sqlcustom [appname]'
-# into your database.
-
 from django.db import models
+from django_extensions.db.fields import UUIDField
+from django.contrib.gis.db.models import PointField, GeoManager
+
+class Establishment(models.Model):
+    establishment_id = UUIDField(primary_key=True) # This field type is a guess.
+    name = models.TextField(blank=True)
+    location = PointField(blank=True) # This field type is a guess.
+    description = models.TextField(blank=True)
+    photo_url = models.TextField(blank=True)
+    table_map_url = models.TextField(blank=True)
+    table_map_graph = models.TextField(blank=True)
+    establishment_code = models.TextField(blank=True)
+
+    objects = GeoManager()
+
+    class Meta:
+        db_table = u'Establishment'
 
 class EstablishmentLoyalty(models.Model):
-    establishment_loyalty_id = models.TextField(primary_key=True) # This field type is a guess.
+    establishment_loyalty_id = UUIDField(primary_key=True) # This field type is a guess.
     establishment = models.ForeignKey(Establishment)
     name = models.TextField(blank=True)
     instructions = models.TextField(blank=True)
@@ -18,7 +26,7 @@ class EstablishmentLoyalty(models.Model):
         db_table = u'EstablishmentLoyalty'
 
 class Stock(models.Model):
-    stock_id = models.TextField(primary_key=True) # This field type is a guess.
+    stock_id = UUIDField(primary_key=True) # This field type is a guess.
     establishment = models.ForeignKey(Establishment, null=True, blank=True)
     name = models.TextField(blank=True)
     type = models.TextField(blank=True)
@@ -27,29 +35,17 @@ class Stock(models.Model):
     class Meta:
         db_table = u'Stock'
 
-class ProductPrice(models.Model):
-    product_price_id = models.TextField(primary_key=True) # This field type is a guess.
-    product = models.ForeignKey(Product, null=True, blank=True)
-    quantity = models.IntegerField(null=True, blank=True)
-    in_stock = models.BooleanField(null=True, blank=True)
-    price = models.TextField(blank=True) # This field type is a guess.
-    class Meta:
-        db_table = u'ProductPrice'
-
-class Establishment(models.Model):
-    establishment_id = models.TextField(primary_key=True) # This field type is a guess.
+class Category(models.Model):
+    category_id = UUIDField(primary_key=True) # This field type is a guess.
+    establishment = models.ForeignKey(Establishment, null=True, blank=True)
     name = models.TextField(blank=True)
-    location = models.TextField(blank=True) # This field type is a guess.
-    description = models.TextField(blank=True)
-    photo_url = models.TextField(blank=True)
-    table_map_url = models.TextField(blank=True)
-    table_map_graph = models.TextField(blank=True)
-    establishment_code = models.TextField(blank=True)
+    type = models.TextField(blank=True)
+    visibility = models.BooleanField(null=True, blank=True)
     class Meta:
-        db_table = u'Establishment'
+        db_table = u'Category'
 
 class Product(models.Model):
-    product_id = models.TextField(primary_key=True) # This field type is a guess.
+    product_id = UUIDField(primary_key=True) # This field type is a guess.
     stock = models.ForeignKey(Stock, null=True, blank=True)
     establishment = models.ForeignKey(Establishment, null=True, blank=True)
     name = models.TextField(blank=True)
@@ -59,43 +55,60 @@ class Product(models.Model):
     class Meta:
         db_table = u'Product'
 
+class ProductPrice(models.Model):
+    product_price_id = UUIDField(primary_key=True) # This field type is a guess.
+    product = models.ForeignKey(Product, null=True, blank=True)
+    quantity = models.IntegerField(null=True, blank=True)
+    in_stock = models.BooleanField(null=True, blank=True)
+    price = models.TextField(blank=True) # This field type is a guess.
+    class Meta:
+        db_table = u'ProductPrice'
+
 class EstablishmentBarPerson(models.Model):
-    establishment_bar_person_id = models.TextField(primary_key=True) # This field type is a guess.
+    establishment_bar_person_id = UUIDField(primary_key=True) # This field type is a guess.
     establishment = models.ForeignKey(Establishment, null=True, blank=True)
     name = models.TextField(blank=True)
     class Meta:
         db_table = u'EstablishmentBarPerson'
 
 class CategoryOfCategory(models.Model):
-    category_of_category_id = models.TextField(primary_key=True) # This field type is a guess.
+    category_of_category_id = UUIDField(primary_key=True) # This field type is a guess.
     parent = models.ForeignKey(Category, null=True, blank=True)
     child = models.ForeignKey(Category, null=True, blank=True)
     class Meta:
         db_table = u'CategoryOfCategory'
 
+class User(models.Model):
+    user_id = UUIDField(primary_key=True) # This field type is a guess.
+    name = models.TextField(blank=True)
+    avatar_url = models.TextField(blank=True)
+    invite_code = models.TextField(blank=True)
+    class Meta:
+        db_table = u'User'
+
 class UserCredit(models.Model):
-    user_credit_id = models.TextField(primary_key=True) # This field type is a guess.
+    user_credit_id = UUIDField(primary_key=True) # This field type is a guess.
     user = models.ForeignKey(User, null=True, blank=True)
     amount = models.IntegerField(null=True, blank=True)
     class Meta:
         db_table = u'UserCredit'
 
 class ProductInstruction(models.Model):
-    product_instruction_id = models.TextField(primary_key=True) # This field type is a guess.
+    product_instruction_id = UUIDField(primary_key=True) # This field type is a guess.
     product = models.ForeignKey(Product, null=True, blank=True)
     name = models.TextField(blank=True)
     class Meta:
         db_table = u'ProductInstruction'
 
 class UserFriend(models.Model):
-    user_friend_id = models.TextField(primary_key=True) # This field type is a guess.
+    user_friend_id = UUIDField(primary_key=True) # This field type is a guess.
     user = models.ForeignKey(User, null=True, blank=True)
     friend = models.ForeignKey(User, null=True, blank=True)
     class Meta:
         db_table = u'UserFriend'
 
 class UserPaymentCard(models.Model):
-    user_payment_card_id = models.TextField(primary_key=True) # This field type is a guess.
+    user_payment_card_id = UUIDField(primary_key=True) # This field type is a guess.
     user = models.ForeignKey(User, null=True, blank=True)
     name = models.TextField(blank=True)
     last_4_digits = models.TextField(blank=True)
@@ -105,7 +118,7 @@ class UserPaymentCard(models.Model):
         db_table = u'UserPaymentCard'
 
 class CompositeProduct(models.Model):
-    composite_product_id = models.TextField(primary_key=True) # This field type is a guess.
+    composite_product_id = UUIDField(primary_key=True) # This field type is a guess.
     name = models.TextField(blank=True)
     type = models.TextField(blank=True)
     query = models.TextField(blank=True)
@@ -113,25 +126,8 @@ class CompositeProduct(models.Model):
     class Meta:
         db_table = u'CompositeProduct'
 
-class User(models.Model):
-    user_id = models.TextField(primary_key=True) # This field type is a guess.
-    name = models.TextField(blank=True)
-    avatar_url = models.TextField(blank=True)
-    invite_code = models.TextField(blank=True)
-    class Meta:
-        db_table = u'User'
-
-class Category(models.Model):
-    category_id = models.TextField(primary_key=True) # This field type is a guess.
-    establishment = models.ForeignKey(Establishment, null=True, blank=True)
-    name = models.TextField(blank=True)
-    type = models.TextField(blank=True)
-    visibility = models.BooleanField(null=True, blank=True)
-    class Meta:
-        db_table = u'Category'
-
 class UserFavourite(models.Model):
-    user_favourite_id = models.TextField(primary_key=True) # This field type is a guess.
+    user_favourite_id = UUIDField(primary_key=True) # This field type is a guess.
     user = models.ForeignKey(User, null=True, blank=True)
     product = models.ForeignKey(Product, null=True, blank=True)
     establishment = models.ForeignKey(Establishment, null=True, blank=True)
@@ -139,7 +135,7 @@ class UserFavourite(models.Model):
         db_table = u'UserFavourite'
 
 class Tab(models.Model):
-    tab_id = models.TextField(primary_key=True) # This field type is a guess.
+    tab_id = UUIDField(primary_key=True) # This field type is a guess.
     owner_type = models.TextField(blank=True)
     owner = models.TextField(blank=True) # This field type is a guess.
     type = models.TextField(blank=True)
@@ -149,18 +145,41 @@ class Tab(models.Model):
         db_table = u'Tab'
 
 class Customer(models.Model):
-    customer_id = models.TextField(primary_key=True) # This field type is a guess.
+    customer_id = UUIDField(primary_key=True) # This field type is a guess.
     user = models.ForeignKey(User, null=True, blank=True)
     establishment = models.ForeignKey(Establishment, null=True, blank=True)
     class Meta:
         db_table = u'Customer'
 
-class AuthGroupPermissions(models.Model):
+class DjangoSite(models.Model):
     id = models.IntegerField(primary_key=True)
-    group = models.ForeignKey(AuthGroup)
-    permission = models.ForeignKey(AuthPermission)
+    domain = models.CharField(max_length=100)
+    name = models.CharField(max_length=50)
     class Meta:
-        db_table = u'auth_group_permissions'
+        db_table = u'django_site'
+
+class DjangoSession(models.Model):
+    session_key = models.CharField(max_length=40, primary_key=True)
+    session_data = models.TextField()
+    expire_date = models.DateTimeField()
+    class Meta:
+        db_table = u'django_session'
+
+class DjangoContentType(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=100)
+    app_label = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+    class Meta:
+        db_table = u'django_content_type'
+
+class AuthPermission(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=50)
+    content_type = models.ForeignKey(DjangoContentType)
+    codename = models.CharField(max_length=100)
+    class Meta:
+        db_table = u'auth_permission'
 
 class AuthGroup(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -168,19 +187,12 @@ class AuthGroup(models.Model):
     class Meta:
         db_table = u'auth_group'
 
-class AuthUserUserPermissions(models.Model):
+class AuthGroupPermissions(models.Model):
     id = models.IntegerField(primary_key=True)
-    user = models.ForeignKey(AuthUser)
+    group = models.ForeignKey(AuthGroup)
     permission = models.ForeignKey(AuthPermission)
     class Meta:
-        db_table = u'auth_user_user_permissions'
-
-class AuthUserGroups(models.Model):
-    id = models.IntegerField(primary_key=True)
-    user = models.ForeignKey(AuthUser)
-    group = models.ForeignKey(AuthGroup)
-    class Meta:
-        db_table = u'auth_user_groups'
+        db_table = u'auth_group_permissions'
 
 class AuthUser(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -197,33 +209,16 @@ class AuthUser(models.Model):
     class Meta:
         db_table = u'auth_user'
 
-class AuthPermission(models.Model):
+class AuthUserUserPermissions(models.Model):
     id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=50)
-    content_type = models.ForeignKey(DjangoContentType)
-    codename = models.CharField(max_length=100)
+    user = models.ForeignKey(AuthUser)
+    permission = models.ForeignKey(AuthPermission)
     class Meta:
-        db_table = u'auth_permission'
+        db_table = u'auth_user_user_permissions'
 
-class DjangoContentType(models.Model):
+class AuthUserGroups(models.Model):
     id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=100)
-    app_label = models.CharField(max_length=100)
-    model = models.CharField(max_length=100)
+    user = models.ForeignKey(AuthUser)
+    group = models.ForeignKey(AuthGroup)
     class Meta:
-        db_table = u'django_content_type'
-
-class DjangoSession(models.Model):
-    session_key = models.CharField(max_length=40, primary_key=True)
-    session_data = models.TextField()
-    expire_date = models.DateTimeField()
-    class Meta:
-        db_table = u'django_session'
-
-class DjangoSite(models.Model):
-    id = models.IntegerField(primary_key=True)
-    domain = models.CharField(max_length=100)
-    name = models.CharField(max_length=50)
-    class Meta:
-        db_table = u'django_site'
-
+        db_table = u'auth_user_groups'
