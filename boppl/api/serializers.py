@@ -21,4 +21,13 @@ class EstablishmentSerializer(serializers.HyperlinkedModelSerializer):
         model = Establishment
         fields = ('name', 'establishment_code', 'description')
 
-
+# The default response should look like this:
+# {
+#     metadata: {
+#         status_code: null,
+#         status_message: null
+#     },
+#     body {
+#         ...
+#     }
+# }
