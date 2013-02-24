@@ -80,7 +80,7 @@ class CategoryOfCategory(models.Model):
 
 class User(models.Model):
     user_id = UUIDField(primary_key=True) # This field type is a guess.
-    name = models.TextField(blank=True)
+    name = models.TextField(blank=False)
     avatar_url = models.TextField(blank=True)
     invite_code = models.TextField(blank=True)
     class Meta:

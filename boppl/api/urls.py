@@ -1,12 +1,33 @@
 from django.conf.urls import patterns, url, include
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import EstablishmentList
+from .views import EstablishmentList, UserList
 
 import admin # This enables the admin from this module.
 
+uuid4 = "[0-9a-f]{8}-?([0-9a-f]{4}-?){3}[0-9a-f]{12}"
 urlpatterns = patterns('api.views',
     url(r'^$', 'api_root'),
-    url(r'^establishments/?$', EstablishmentList.as_view(), name='establishment-list'),
+    # url(r'^settings$', None),
+    # url(r'^terms-of-service$', None),
+    url(r'^users$', UserList.as_view(), name="user-list"),
+    # url(r'^user/(?P<pk>' + uuid4 + ')/session$', None, name="user-session-detail"),
+    # url(r'^user/(?P<pk>' + uuid4 + ')/account$', None, name="user-account-detail"),
+    # url(r'^user/(?P<pk>' + uuid4 + ')/profile$', None, name="user-profile-detail"),
+    # url(r'^user/(?P<pk>' + uuid4 + ')/payment-history$', None, name="user-payment-history-detail"),
+    # url(r'^user/(?P<pk>' + uuid4 + ')/order/:order_id$', None, name="user-order-detail"),
+    # url(r'^user/(?P<pk>' + uuid4 + ')/invited-users$', None, name),
+
+    url(r'^establishments$', EstablishmentList.as_view(), name='establishment-list'),
+    # url(r'^establishment/(?P<pk>' + uuid4 + ')/menu$', None),
+    # url(r'^user/(?P<pk>' + uuid4 + ')/product-categories$', None),
+
+    # url(r'^user/(?P<pk>' + uuid4 + ')/cart$', None),
+
+    # url(r'^user/(?P<pk>' + uuid4 + ')/payment-methods$', None),
+    # url(r'^user/(?P<pk>' + uuid4 + ')/voucher-codes$', None),
+    # url(r'^user/(?P<pk>' + uuid4 + ')/payment-method/(?P<payment_method_id>' + uuid4 + ')', None),
+
+    # url(r'^establishment/(?P<pk>' + uuid4 + ')/orders$', None)
 )
 # GET /settings/
 # GET /terms-of-service/

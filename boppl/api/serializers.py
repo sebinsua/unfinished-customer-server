@@ -1,6 +1,5 @@
-from .models import Establishment
+from .models import Establishment, User
 from rest_framework import serializers
-import json
 
 class PointField(serializers.WritableField):
     type_name = 'PointField'
@@ -21,13 +20,8 @@ class EstablishmentSerializer(serializers.HyperlinkedModelSerializer):
         model = Establishment
         fields = ('name', 'establishment_code', 'description')
 
-# The default response should look like this:
-# {
-#     metadata: {
-#         status_code: null,
-#         status_message: null
-#     },
-#     body {
-#         ...
-#     }
-# }
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('name',)
