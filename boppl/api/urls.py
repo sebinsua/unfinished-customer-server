@@ -1,14 +1,14 @@
 from django.conf.urls import patterns, url, include
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import EstablishmentList, UserList
+from .views import EstablishmentList, UserList, SettingsDetail, TermsOfServiceDetail
 
 import admin # This enables the admin from this module.
 
 uuid4 = "[0-9a-f]{8}-?([0-9a-f]{4}-?){3}[0-9a-f]{12}"
 urlpatterns = patterns('api.views',
     url(r'^$', 'api_root'),
-    # url(r'^settings$', None),
-    # url(r'^terms-of-service$', None),
+    url(r'^settings$', SettingsDetail.as_view(), name="settings-detail"),
+    url(r'^terms-of-service$', TermsOfServiceDetail.as_view(), name="terms-of-service-detail"),
     url(r'^users$', UserList.as_view(), name="user-list"),
     # url(r'^user/(?P<pk>' + uuid4 + ')/session$', None, name="user-session-detail"),
     # url(r'^user/(?P<pk>' + uuid4 + ')/account$', None, name="user-account-detail"),
@@ -29,6 +29,7 @@ urlpatterns = patterns('api.views',
 
     # url(r'^establishment/(?P<pk>' + uuid4 + ')/orders$', None)
 )
+
 # GET /settings/
 # GET /terms-of-service/
 
