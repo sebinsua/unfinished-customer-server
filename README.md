@@ -1,4 +1,4 @@
-boppl-customer-server
+unfinished-customer-server
 =====================
 
 initdb -D /usr/local/var/postgres
